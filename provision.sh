@@ -8,7 +8,7 @@ export RES_STATE=$PROV_CONTEXT"_"$PROV_ENV"_state"
 export RES_AWS_CREDS=$PROV_CONTEXT"_aws_key"
 export RES_AWS_PEM=$PROV_CONTEXT"_aws_pem"
 
-export KEY_FILE_NAME=$PROV_CONTEXT"-us-east-1.pem"
+export KEY_FILE_NAME="rc-us-east-1.pem"
 
 
 export RES_AWS_PEM_UP=$(echo $RES_AWS_PEM | awk '{print toupper($0)}')
