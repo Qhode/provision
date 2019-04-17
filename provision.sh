@@ -5,14 +5,11 @@ export PROV_ENV=$2
 export TF_FOLDER="$PROV_CONTEXT-$PROV_ENV"
 export RES_STATE=$PROV_CONTEXT"_"$PROV_ENV"_state"
 
-export RES_REPO="prov_repo"
 export RES_AWS_CREDS=$PROV_CONTEXT"_aws_key"
 export RES_AWS_PEM=$PROV_CONTEXT"_aws_pem"
 
 export KEY_FILE_NAME=$PROV_CONTEXT"-us-east-1.pem"
 
-export RES_REPO_UP=$(echo $RES_REPO | awk '{print toupper($0)}')
-export RES_REPO_STATE=$(eval echo "$"$RES_REPO_UP"_STATE")
 
 export RES_AWS_PEM_UP=$(echo $RES_AWS_PEM | awk '{print toupper($0)}')
 export RES_AWS_PEM_META=$(eval echo "$"$RES_AWS_PEM_UP"_META")
@@ -23,15 +20,12 @@ export RES_AWS_CREDS_META=$(eval echo "$"$RES_AWS_CREDS_UP"_META")
 test_context() {
   echo "PROV_CONTEXT=$PROV_CONTEXT"
   echo "PROV_ENV=$PROV_ENV"
-  echo "RES_REPO=$RES_REPO"
   echo "RES_AWS_CREDS=$RES_AWS_CREDS"
   echo "RES_AWS_PEM=$RES_AWS_PEM"
   echo "KEY_FILE_NAME=$KEY_FILE_NAME"
   echo "TF_FOLDER=$TF_FOLDER"
   echo "RES_STATE=$RES_STATE"
 
-  echo "RES_REPO_UP=$RES_REPO_UP"
-  echo "RES_REPO_STATE=$RES_REPO_STATE"
   echo "RES_AWS_PEM_UP=$RES_AWS_PEM_UP"
   echo "RES_AWS_PEM_META=$RES_AWS_PEM_META"
   echo "RES_AWS_CREDS_UP=$RES_AWS_CREDS_UP"
@@ -42,7 +36,7 @@ restore_state(){
   echo "Copying previous state file"
   echo "-----------------------------------"
 
-  pushd "$RES_REPO_STATE/$TF_FOLDER"
+  pushd "$TF_FOLDER"
     shipctl copy_file_from_resource_state $RES_STATE terraform.tfstate .
     if [ -f "terraform.tfstate" ]; then
       echo "Copied prior state file"
@@ -55,7 +49,7 @@ restore_state(){
 }
 
 create_pemfile() {
- pushd "$RES_REPO_STATE/$TF_FOLDER"
+ pushd "$TF_FOLDER"
  echo "Extracting AWS PEM"
  echo "-----------------------------------"
  cat "$RES_AWS_PEM_META/integration.json"  | jq -r '.key' > $KEY_FILE_NAME
@@ -67,7 +61,7 @@ create_pemfile() {
 }
 
 destroy_changes() {
-  pushd "$RES_REPO_STATE/$TF_FOLDER"
+  pushd "$TF_FOLDER"
   echo "-----------------------------------"
   echo "destroy changes"
   echo "-----------------------------------"
@@ -76,7 +70,7 @@ destroy_changes() {
 }
 
 apply_changes() {
-  pushd "$RES_REPO_STATE/$TF_FOLDER"
+  pushd "$TF_FOLDER"
   echo "-----------------------------------"
   which ssh-agent
   terraform --version
