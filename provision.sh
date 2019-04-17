@@ -5,7 +5,7 @@ export PROV_ENV=$2
 export TF_FOLDER="$PROV_CONTEXT-$PROV_ENV"
 export RES_STATE=$PROV_CONTEXT"_"$PROV_ENV"_state"
 
-export RES_REPO="inf_repo"
+export RES_REPO="prov_repo"
 export RES_AWS_CREDS=$PROV_CONTEXT"_aws_key"
 export RES_AWS_PEM=$PROV_CONTEXT"_aws_pem"
 
@@ -52,6 +52,7 @@ restore_state(){
       echo "-----------------------------------"
     fi
   popd
+}
 
 create_pemfile() {
  pushd "$RES_REPO_STATE/$TF_FOLDER"
@@ -90,6 +91,7 @@ apply_changes() {
 #  terraform apply -auto-approve -var-file="$RES_AWS_CREDS_META/integration.env"
   popd
 }
+
 
 main() {
   eval `ssh-agent -s`
