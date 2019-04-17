@@ -69,7 +69,7 @@ destroy_changes() {
   popd
 }
 
-apply_changes() {
+init_tf(){
   pushd "$TF_FOLDER"
   echo "-----------------------------------"
   which ssh-agent
@@ -77,9 +77,20 @@ apply_changes() {
   echo "initializing terraform"
   echo "-----------------------------------"
   terraform init
+  popd
+
+}
+
+plan_tf(){
+  pushd "$TF_FOLDER"
   echo "planning changes"
   echo "-----------------------------------"
   terraform plan -var-file="$RES_AWS_CREDS_META/integration.env"
+  popd
+}
+
+apply_changes() {
+  pushd "$TF_FOLDER"
   echo "apply changes"
   echo "-----------------------------------"
   terraform apply -auto-approve -var-file="$RES_AWS_CREDS_META/integration.env"
@@ -92,7 +103,9 @@ main() {
   test_context
   restore_state
   create_pemfile
+  init_tf
   destroy_changes
+  #plan_tf
   #apply_changes
 }
 
