@@ -88,36 +88,36 @@ resource "aws_security_group" "sg_public_kermit" {
 # ----------
 # GREEN ELBS
 # ----------
-
-# MKTG Load balancer
-resource "aws_elb" "lb_mktg_kermit" {
-  name = "lb-mktg-kermit-${var.install_version}"
-  connection_draining = true
-  subnets = [
-    "${aws_subnet.sn_public_kermit.id}"]
-  security_groups = [
-    "${aws_security_group.sg_public_kermit.id}"]
-
-  listener {
-    lb_port = 443
-    lb_protocol = "ssl"
-    instance_port = 50002
-    instance_protocol = "tcp"
-    ssl_certificate_id = "${var.acm_cert_arn}"
-  }
-
-  health_check {
-    healthy_threshold = 2
-    unhealthy_threshold = 2
-    timeout = 3
-    target = "HTTP:50002/"
-    interval = 5
-  }
-
-  instances = [
-    "${aws_instance.inst_onebox_kermit.id}"
-  ]
-}
+//
+//# MKTG Load balancer
+//resource "aws_elb" "lb_mktg_kermit" {
+//  name = "lb-mktg-kermit-${var.install_version}"
+//  connection_draining = true
+//  subnets = [
+//    "${aws_subnet.sn_public_kermit.id}"]
+//  security_groups = [
+//    "${aws_security_group.sg_public_kermit.id}"]
+//
+//  listener {
+//    lb_port = 443
+//    lb_protocol = "ssl"
+//    instance_port = 50002
+//    instance_protocol = "tcp"
+//    ssl_certificate_id = "${var.acm_cert_arn}"
+//  }
+//
+//  health_check {
+//    healthy_threshold = 2
+//    unhealthy_threshold = 2
+//    timeout = 3
+//    target = "HTTP:50002/"
+//    interval = 5
+//  }
+//
+//  instances = [
+//    "${aws_instance.inst_onebox_kermit.id}"
+//  ]
+//}
 
 # WWW Load balancer
 resource "aws_elb" "lb_www_kermit" {
@@ -178,66 +178,66 @@ resource "aws_elb" "lb_api_kermit" {
     "${aws_instance.inst_onebox_kermit.id}"
   ]
 }
-
-# API INT ELB
-resource "aws_elb" "lb_api_int_kermit" {
-  name = "lb-api-int-kermit-${var.install_version}"
-  connection_draining = true
-  subnets = [
-    "${aws_subnet.sn_public_kermit.id}"]
-  security_groups = [
-    "${aws_security_group.sg_public_kermit.id}"]
-
-  listener {
-    lb_port = 443
-    lb_protocol = "https"
-    instance_port = 50004
-    instance_protocol = "http"
-    ssl_certificate_id = "${var.acm_cert_arn}"
-  }
-
-  health_check {
-    healthy_threshold = 2
-    unhealthy_threshold = 2
-    timeout = 3
-    target = "HTTP:50004/"
-    interval = 5
-  }
-
-  instances = [
-    "${aws_instance.inst_onebox_kermit.id}"
-  ]
-}
-
-#API CONSOLE ELB
-resource "aws_elb" "lb_api_con_kermit" {
-  name = "lb-api-con-kermit-${var.install_version}"
-  connection_draining = true
-  subnets = [
-    "${aws_subnet.sn_public_kermit.id}"]
-  security_groups = [
-    "${aws_security_group.sg_public_kermit.id}"]
-
-  listener {
-    lb_port = 443
-    lb_protocol = "https"
-    instance_port = 50005
-    instance_protocol = "http"
-    ssl_certificate_id = "${var.acm_cert_arn}"
-  }
-
-  health_check {
-    healthy_threshold = 2
-    unhealthy_threshold = 2
-    timeout = 3
-    target = "HTTP:50005/"
-    interval = 5
-  }
-
-  instances = [
-    "${aws_instance.inst_onebox_kermit.id}"
-  ]
-}
+//
+//# API INT ELB
+//resource "aws_elb" "lb_api_int_kermit" {
+//  name = "lb-api-int-kermit-${var.install_version}"
+//  connection_draining = true
+//  subnets = [
+//    "${aws_subnet.sn_public_kermit.id}"]
+//  security_groups = [
+//    "${aws_security_group.sg_public_kermit.id}"]
+//
+//  listener {
+//    lb_port = 443
+//    lb_protocol = "https"
+//    instance_port = 50004
+//    instance_protocol = "http"
+//    ssl_certificate_id = "${var.acm_cert_arn}"
+//  }
+//
+//  health_check {
+//    healthy_threshold = 2
+//    unhealthy_threshold = 2
+//    timeout = 3
+//    target = "HTTP:50004/"
+//    interval = 5
+//  }
+//
+//  instances = [
+//    "${aws_instance.inst_onebox_kermit.id}"
+//  ]
+//}
+//
+//#API CONSOLE ELB
+//resource "aws_elb" "lb_api_con_kermit" {
+//  name = "lb-api-con-kermit-${var.install_version}"
+//  connection_draining = true
+//  subnets = [
+//    "${aws_subnet.sn_public_kermit.id}"]
+//  security_groups = [
+//    "${aws_security_group.sg_public_kermit.id}"]
+//
+//  listener {
+//    lb_port = 443
+//    lb_protocol = "https"
+//    instance_port = 50005
+//    instance_protocol = "http"
+//    ssl_certificate_id = "${var.acm_cert_arn}"
+//  }
+//
+//  health_check {
+//    healthy_threshold = 2
+//    unhealthy_threshold = 2
+//    timeout = 3
+//    target = "HTTP:50005/"
+//    interval = 5
+//  }
+//
+//  instances = [
+//    "${aws_instance.inst_onebox_kermit.id}"
+//  ]
+//}
 
 # MSG Load balancer
 resource "aws_elb" "lb_msg_kermit" {
