@@ -148,3 +148,7 @@ resource "aws_instance" "inst_onebox_kermit" {
    Name = "inst_onebox_kermit_${var.install_version}"
  }
 }
+
+output "inst_onebox_kermit_priv_ip" {
+  value = "${aws_instance.inst_onebox_kermit.private_ip}"
+}

@@ -90,6 +90,14 @@ resource "aws_instance" "inst_nat_kermit" {
   }
 }
 
+output "inst_nat_kermit_priv_ip" {
+  value = "${ aws_instance.inst_nat_kermit.private_ip}"
+}
+
+output "inst_nat_kermit_pub_ip" {
+  value = "${aws_instance.inst_nat_kermit.public_ip}"
+}
+
 # # Associate EIP, without this private SN wont work
 resource "aws_eip" "eip_nat" {
   instance = "${aws_instance.inst_nat_kermit.id}"
