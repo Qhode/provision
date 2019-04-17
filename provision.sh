@@ -92,8 +92,8 @@ main() {
   test_context
   restore_state
   create_pemfile
-  #destroy_changes
-  apply_changes
+  destroy_changes
+  #apply_changes
 }
 
 main
