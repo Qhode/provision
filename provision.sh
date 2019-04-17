@@ -104,9 +104,9 @@ main() {
   restore_state
   create_pemfile
   init_tf
-  destroy_changes
-  #plan_tf
-  #apply_changes
+  #destroy_changes
+  plan_tf
+  apply_changes
 }
 
 main
