@@ -253,7 +253,7 @@ resource "aws_elb" "lb_msg_kermit" {
   listener {
     lb_port = 443
     lb_protocol = "https"
-    instance_port = 15672
+    instance_port = 30201
     instance_protocol = "http"
     ssl_certificate_id = "${var.acm_cert_arn}"
   }
@@ -261,7 +261,7 @@ resource "aws_elb" "lb_msg_kermit" {
   listener {
     lb_port = 5671
     lb_protocol = "ssl"
-    instance_port = 5672
+    instance_port = 30200
     instance_protocol = "tcp"
     ssl_certificate_id = "${var.acm_cert_arn}"
   }
@@ -269,7 +269,7 @@ resource "aws_elb" "lb_msg_kermit" {
   listener {
     lb_port = 15671
     lb_protocol = "https"
-    instance_port = 15672
+    instance_port = 30201
     instance_protocol = "http"
     ssl_certificate_id = "${var.acm_cert_arn}"
   }
@@ -278,7 +278,7 @@ resource "aws_elb" "lb_msg_kermit" {
     healthy_threshold = 2
     unhealthy_threshold = 2
     timeout = 3
-    target = "HTTP:15672/"
+    target = "HTTP:30201/"
     interval = 5
   }
 

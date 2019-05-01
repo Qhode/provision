@@ -81,15 +81,15 @@ resource "aws_security_group" "sg_private_kermit" {
       "${var.cidr_public_kermit}"]
   }
   ingress {
-    from_port = "5672"
-    to_port = "5672"
+    from_port = "30200"
+    to_port = "30200"
     protocol = "tcp"
     cidr_blocks = [
       "${var.cidr_public_kermit}"]
   }
   ingress {
-    from_port = "15672"
-    to_port = "15672"
+    from_port = "30201"
+    to_port = "30201"
     protocol = "tcp"
     cidr_blocks = [
       "${var.cidr_public_kermit}"]
