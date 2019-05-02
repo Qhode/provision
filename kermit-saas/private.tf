@@ -137,7 +137,7 @@ resource "aws_efs_file_system" "efs_shared_kermit" {
 resource "aws_efs_mount_target" "mt_efs_shared_kermit" {
   file_system_id = "${aws_efs_file_system.efs_shared_kermit.id}"
   subnet_id = "${aws_subnet.sn_private_kermit.id}"
-  vpc_security_group_ids = [
+  security_groups = [
     "${aws_security_group.sg_private_kermit.id}"]
 }
 
