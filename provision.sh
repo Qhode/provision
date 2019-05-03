@@ -101,7 +101,7 @@ output() {
   pushd "$TF_FOLDER"
   shipctl put_resource_state kermit_saas_state "nat_priv_ip" "$(terraform output inst_nat_kermit_priv_ip)"
   shipctl put_resource_state kermit_saas_state "nat_pub_ip" "$(terraform output inst_nat_kermit_pub_ip)"
-  shipctl put_resource_state kermit_saas_state "onebox_priv_ip" "$(terraform output inst_onebox_kermit_priv_ip)"
+  shipctl put_resource_state kermit_saas_state "onebox_priv_ip" "$(terraform output inst_kermit_master_priv_ip)"
   popd
 }
 
