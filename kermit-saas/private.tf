@@ -199,7 +199,7 @@ resource "aws_instance" "inst_kermit_master" {
 }
 
 output "inst_kermit_master_priv_ip" {
-  value = "${aws_instance.inst_onebox_kermit.private_ip}"
+  value = "${aws_instance.inst_kermit_master.private_ip}"
 }
 
 # instance kermit k8s worker node
