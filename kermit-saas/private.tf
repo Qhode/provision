@@ -123,34 +123,61 @@ resource "aws_security_group" "sg_private_kermit" {
   }
 }
 
-# ---------------
-# Shared file store
-# ---------------
-# resource "aws_efs_file_system" "efs_shared_kermit" {
-#   creation_token = "efs_shared_kermit"
-#
-#   tags = {
-#     Name = "efs_shared_kermit_${var.install_version}"
-#   }
-# }
-#
-# resource "aws_efs_mount_target" "mt_efs_shared_kermit" {
-#   file_system_id = "${aws_efs_file_system.efs_shared_kermit.id}"
-#   subnet_id = "${aws_subnet.sn_private_kermit.id}"
-#   security_groups = [
-#     "${aws_security_group.sg_private_kermit.id}"]
-# }
-#
-# output "mt_efs_shared_kermit_dns" {
-#   value = "${aws_efs_mount_target.mt_efs_shared_kermit.dns_name}"
-# }
 
 # ---------------
 # One box instance
 # ---------------
 
 # instance kermit one box
-resource "aws_instance" "inst_onebox_kermit" {
+# resource "aws_instance" "inst_onebox_kermit" {
+#  ami = "${var.ami_us_east_1_ubuntu1604}"
+#  availability_zone = "${var.avl_zone}"
+#  instance_type = "${var.inst_type_x}"
+#  key_name = "${var.aws_key_name}"
+#  subnet_id = "${aws_subnet.sn_private_kermit.id}"
+#
+#  vpc_security_group_ids = [
+#    "${aws_security_group.sg_private_kermit.id}"]
+#
+#  root_block_device {
+#    volume_type = "gp2"
+#    volume_size = 100
+#    delete_on_termination = true
+#  }
+#
+#  tags = {
+#    Name = "inst_onebox_kermit_${var.install_version}"
+#  }
+# }
+#
+# output "inst_onebox_kermit_priv_ip" {
+#   value = "${aws_instance.inst_onebox_kermit.private_ip}"
+# }
+
+# ---------------
+# Shared file store
+# ---------------
+resource "aws_efs_file_system" "efs_shared_kermit" {
+  creation_token = "efs_shared_kermit"
+
+  tags = {
+    Name = "efs_shared_kermit_${var.install_version}"
+  }
+}
+
+resource "aws_efs_mount_target" "mt_efs_shared_kermit" {
+  file_system_id = "${aws_efs_file_system.efs_shared_kermit.id}"
+  subnet_id = "${aws_subnet.sn_private_kermit.id}"
+  security_groups = [
+    "${aws_security_group.sg_private_kermit.id}"]
+}
+
+output "mt_efs_shared_kermit_dns" {
+  value = "${aws_efs_mount_target.mt_efs_shared_kermit.dns_name}"
+}
+
+# instance kermit k8s master node
+resource "aws_instance" "inst_kermit_master" {
  ami = "${var.ami_us_east_1_ubuntu1604}"
  availability_zone = "${var.avl_zone}"
  instance_type = "${var.inst_type_x}"
@@ -167,61 +194,36 @@ resource "aws_instance" "inst_onebox_kermit" {
  }
 
  tags = {
-   Name = "inst_onebox_kermit_${var.install_version}"
+   Name = "inst_kermit_master_${var.install_version}"
  }
 }
 
-output "inst_onebox_kermit_priv_ip" {
+output "inst_kermit_master_priv_ip" {
   value = "${aws_instance.inst_onebox_kermit.private_ip}"
 }
 
-# resource "aws_instance" "inst_kermit_master" {
-#  ami = "${var.ami_us_east_1_ubuntu1604}"
-#  availability_zone = "${var.avl_zone}"
-#  instance_type = "${var.inst_type_x}"
-#  key_name = "${var.aws_key_name}"
-#  subnet_id = "${aws_subnet.sn_private_kermit.id}"
-#
-#  vpc_security_group_ids = [
-#    "${aws_security_group.sg_private_kermit.id}"]
-#
-#  root_block_device {
-#    volume_type = "gp2"
-#    volume_size = 100
-#    delete_on_termination = true
-#  }
-#
-#  tags = {
-#    Name = "inst_kermit_master_${var.install_version}"
-#  }
-# }
-#
-# output "inst_kermit_master_priv_ip" {
-#   value = "${aws_instance.inst_onebox_kermit.private_ip}"
-# }
-#
-# # instance kermit k8s worker node
-# resource "aws_instance" "inst_kermit_worker" {
-#  ami = "${var.ami_us_east_1_ubuntu1604}"
-#  availability_zone = "${var.avl_zone}"
-#  instance_type = "${var.inst_type_x}"
-#  key_name = "${var.aws_key_name}"
-#  subnet_id = "${aws_subnet.sn_private_kermit.id}"
-#
-#  vpc_security_group_ids = [
-#    "${aws_security_group.sg_private_kermit.id}"]
-#
-#  root_block_device {
-#    volume_type = "gp2"
-#    volume_size = 100
-#    delete_on_termination = true
-#  }
-#
-#  tags = {
-#    Name = "inst_kermit_worker_${var.install_version}"
-#  }
-# }
-#
-# output "inst_kermit_worker_priv_ip" {
-#   value = "${aws_instance.inst_kermit_worker.private_ip}"
-# }
+# instance kermit k8s worker node
+resource "aws_instance" "inst_kermit_worker" {
+ ami = "${var.ami_us_east_1_ubuntu1604}"
+ availability_zone = "${var.avl_zone}"
+ instance_type = "${var.inst_type_x}"
+ key_name = "${var.aws_key_name}"
+ subnet_id = "${aws_subnet.sn_private_kermit.id}"
+
+ vpc_security_group_ids = [
+   "${aws_security_group.sg_private_kermit.id}"]
+
+ root_block_device {
+   volume_type = "gp2"
+   volume_size = 100
+   delete_on_termination = true
+ }
+
+ tags = {
+   Name = "inst_kermit_worker_${var.install_version}"
+ }
+}
+
+output "inst_kermit_worker_priv_ip" {
+  value = "${aws_instance.inst_kermit_worker.private_ip}"
+}

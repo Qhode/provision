@@ -145,7 +145,8 @@ resource "aws_elb" "lb_www_kermit" {
   }
 
   instances = [
-    "${aws_instance.inst_onebox_kermit.id}"
+    "${aws_instance.inst_kermit_master.id}",
+    "${aws_instance.inst_kermit_worker.id}"
   ]
 }
 
@@ -175,7 +176,8 @@ resource "aws_elb" "lb_api_kermit" {
   }
 
   instances = [
-    "${aws_instance.inst_onebox_kermit.id}"
+    "${aws_instance.inst_kermit_master.id}",
+    "${aws_instance.inst_kermit_worker.id}"
   ]
 }
 //
@@ -283,5 +285,7 @@ resource "aws_elb" "lb_msg_kermit" {
   }
 
   instances = [
-    "${aws_instance.inst_onebox_kermit.id}"]
+    "${aws_instance.inst_kermit_master.id}",
+    "${aws_instance.inst_kermit_worker.id}"
+  ]
 }
