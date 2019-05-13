@@ -227,30 +227,3 @@ resource "aws_instance" "inst_kermit_worker" {
 output "inst_kermit_worker_priv_ip" {
   value = "${aws_instance.inst_kermit_worker.private_ip}"
 }
-
-# instance kermit k8s worker node
-resource "aws_instance" "inst_kermit_test" {
- ami = "${var.ami_us_east_1_ubuntu1604}"
- availability_zone = "${var.avl_zone}"
- instance_type = "${var.inst_type_x}"
- key_name = "${var.aws_key_name}"
- subnet_id = "${aws_subnet.sn_private_kermit.id}"
-
- vpc_security_group_ids = [
-   "${aws_security_group.sg_private_kermit.id}"]
-
- root_block_device {
-   volume_type = "gp2"
-   volume_size = 100
-   delete_on_termination = true
- }
-
- tags = {
-   Name = "inst_kermit_test_${var.install_version}"
- }
-}
-
-output "inst_kermit_test_priv_ip" {
-  value = "${aws_instance.inst_kermit_test.private_ip}"
-}
-
