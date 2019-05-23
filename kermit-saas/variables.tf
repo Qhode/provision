@@ -32,7 +32,7 @@ variable "aws_key_filename" {
 # all variables related to VPC
 variable "install_version" {
   description = "version of the infra"
-  default = "obKermit"
+  default = "haKermit"
 }
 
 variable "cidr_block" {
