@@ -145,7 +145,6 @@ resource "aws_elb" "lb_www_kermit" {
   }
 
   instances = [
-    "${aws_instance.inst_kermit_master_c7.id}",
     "${aws_instance.inst_kermit_worker_c7.id}"
   ]
 }
@@ -176,7 +175,6 @@ resource "aws_elb" "lb_api_kermit" {
   }
 
   instances = [
-    "${aws_instance.inst_kermit_master_c7.id}",
     "${aws_instance.inst_kermit_worker_c7.id}"
   ]
 }
@@ -285,7 +283,6 @@ resource "aws_elb" "lb_msg_kermit" {
   }
 
   instances = [
-    "${aws_instance.inst_kermit_master_c7.id}",
     "${aws_instance.inst_kermit_worker_c7.id}"
   ]
 }
