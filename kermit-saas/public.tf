@@ -286,3 +286,34 @@ resource "aws_elb" "lb_msg_kermit" {
     "${aws_instance.inst_kermit_worker_c7.id}"
   ]
 }
+
+## u16 Jenkins server
+resource "aws_instance" "inst_kermit_jenkins_u16" {
+ ami = "${var.ami_us_east_1_ubuntu1604}"
+ availability_zone = "${var.avl_zone}"
+ instance_type = "${var.in_type_jenkins}"
+ key_name = "${var.aws_key_name}"
+ subnet_id = "${aws_subnet.sn_public_kermit.id}"
+ associate_public_ip_address = true
+
+ vpc_security_group_ids = [
+   "${aws_security_group.sg_public_kermit.id}"]
+
+ root_block_device {
+   volume_type = "gp2"
+   volume_size = 30
+   delete_on_termination = true
+ }
+
+ tags = {
+   Name = "inst_kermit_jenkins_u16_${var.install_version}"
+ }
+}
+
+output "inst_kermit_jenkins_u16_priv_ip" {
+  value = "${aws_instance.inst_kermit_jenkins_u16.private_ip}"
+}
+
+output "inst_kermit_jenkins_u16_pub_ip" {
+  value = "${aws_instance.inst_kermit_jenkins_u16.public_ip}"
+}

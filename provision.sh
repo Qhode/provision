@@ -102,6 +102,7 @@ output() {
   shipctl put_resource_state kermit_saas_state "nat_priv_ip" "$(terraform output inst_nat_kermit_priv_ip)"
   shipctl put_resource_state kermit_saas_state "nat_pub_ip" "$(terraform output inst_nat_kermit_pub_ip)"
   shipctl put_resource_state kermit_saas_state "onebox_priv_ip" "$(terraform output inst_kermit_worker_c7_priv_ip)"
+  shipctl put_resource_state kermit_saas_state "jenkins_pub_ip" "$(terraform output inst_kermit_jenkins_u16_pub_ip)"
   popd
 }
 
