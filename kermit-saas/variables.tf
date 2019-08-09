@@ -76,6 +76,12 @@ variable "in_type_nat" {
   description = "AWS Instance type for consul server"
 }
 
+variable "in_type_jenkins" {
+  //make sure it is compatible with AMI, not all AMIs allow all instance types "
+  default = "t2.small"
+  description = "AWS Instance type for Jenkins server"
+}
+
 variable "ami_us_east_1_ubuntu1604"{
   default = "ami-cd0f5cb6"
   description = "AWS AMI for us-east-1 Ubuntu 16.04"
