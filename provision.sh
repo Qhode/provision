@@ -114,7 +114,7 @@ main() {
   init_tf
   #destroy_changes
   plan_tf
-  apply_changes
+  #apply_changes
   output
 }
 
