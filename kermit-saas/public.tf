@@ -84,6 +84,32 @@ resource "aws_security_group" "sg_public_kermit" {
   }
 }
 
+# Jenkins Security group
+resource "aws_security_group" "sg_public_kermit_jenkins" {
+  name = "sg_public_kermit_jenkins_${var.install_version}"
+  description = "Public traffic security group for Jenkins"
+  vpc_id = "${aws_vpc.vpc.id}"
+
+  ingress {
+    from_port = 8080
+    to_port = 8080
+    protocol = "tcp"
+    cidr_blocks = [
+      "0.0.0.0/0"]
+  }
+
+  ingress {
+    from_port = 22
+    to_port = 22
+    protocol = "tcp"
+    cidr_blocks = [
+      "0.0.0.0/0"]
+  }
+
+  tags {
+    Name = "sg_public_kermit_jenkins_${var.install_version}"
+  }
+}
 
 # ----------
 # GREEN ELBS
@@ -297,7 +323,7 @@ resource "aws_instance" "inst_kermit_jenkins_u16" {
  associate_public_ip_address = true
 
  vpc_security_group_ids = [
-   "${aws_security_group.sg_public_kermit.id}"]
+   "${aws_security_group.sg_public_kermit_jenkins.id}"]
 
  root_block_device {
    volume_type = "gp2"
