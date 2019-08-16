@@ -2,14 +2,15 @@
 
 export PROV_CONTEXT=$1
 export PROV_ENV=$2
+export KEY_FILE_NAME=$3
+
 export TF_FOLDER="$PROV_CONTEXT-$PROV_ENV"
 export RES_STATE=$PROV_CONTEXT"_"$PROV_ENV"_state"
 
 export RES_AWS_CREDS=$PROV_CONTEXT"_aws_key"
 export RES_AWS_PEM=$PROV_CONTEXT"_aws_pem"
 
-export KEY_FILE_NAME="rc-us-east-1.pem"
-
+KEY_FILE_NAME="$KEY_FILE_NAME.pem"
 
 export RES_AWS_PEM_UP=$(echo $RES_AWS_PEM | awk '{print toupper($0)}')
 export RES_AWS_PEM_META=$(eval echo "$"$RES_AWS_PEM_UP"_META")
@@ -99,11 +100,13 @@ apply_changes() {
 
 output() {
   pushd "$TF_FOLDER"
-  shipctl put_resource_state kermit_saas_state "nat_priv_ip" "$(terraform output inst_nat_kermit_priv_ip)"
-  shipctl put_resource_state kermit_saas_state "nat_pub_ip" "$(terraform output inst_nat_kermit_pub_ip)"
-  shipctl put_resource_state kermit_saas_state "onebox_priv_ip" "$(terraform output inst_kermit_worker_c7_priv_ip)"
-  shipctl put_resource_state kermit_saas_state "jenkins_pub_ip" "$(terraform output inst_kermit_jenkins_u16_pub_ip)"
-  shipctl put_resource_state kermit_saas_state "build_u16_priv_ip" "$(terraform output inst_kermit_build_u16_priv_ip)"
+  if [ "$PROV_CONTEXT" == "kermit" ] && [ "$PROV_ENV" == "saas" ]; then
+    shipctl put_resource_state kermit_saas_state "nat_priv_ip" "$(terraform output inst_nat_kermit_priv_ip)"
+    shipctl put_resource_state kermit_saas_state "nat_pub_ip" "$(terraform output inst_nat_kermit_pub_ip)"
+    shipctl put_resource_state kermit_saas_state "onebox_priv_ip" "$(terraform output inst_kermit_worker_c7_priv_ip)"
+    shipctl put_resource_state kermit_saas_state "jenkins_pub_ip" "$(terraform output inst_kermit_jenkins_u16_pub_ip)"
+    shipctl put_resource_state kermit_saas_state "build_u16_priv_ip" "$(terraform output inst_kermit_build_u16_priv_ip)"
+  fi
   popd
 }
 
