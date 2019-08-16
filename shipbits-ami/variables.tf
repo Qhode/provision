@@ -20,13 +20,13 @@ variable "avl_zone" {
 # this is a keyName for key pairs
 variable "aws_key_name" {
   description = "Key Pair Name used to login to the box"
-  default = "rc-us-east-1"
+  default = "ship-bits"
 }
 
 # this is a PEM key for key pairs
 variable "aws_key_filename" {
   description = "Key Pair FileName used to login to the box"
-  default = "rc-us-east-1.pem"
+  default = "ship-bits.pem"
 }
 
 # all variables related to VPC
