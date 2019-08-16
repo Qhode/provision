@@ -25,29 +25,3 @@ resource "aws_route_table_association" "rt_assn_builds_shipbits" {
   subnet_id = "${aws_subnet.sn_builds_shipbits.id}"
   route_table_id = "${aws_route_table.rt_ship_builds.id}"
 }
-
-resource "aws_security_group" "sg_builds_shipbits" {
-  name = "sg_builds_shipbits_${var.install_version}"
-  description = "Builds Subnet security group for Kermit"
-  vpc_id = "${aws_vpc.vpc.id}"
-
-  ingress {
-    from_port = "22"
-    to_port = "22"
-    protocol = "tcp"
-    cidr_blocks = [
-      "${var.cidr_public_shipbits}"]
-  }
-
-  egress {
-    from_port = 0
-    to_port = 0
-    protocol = "-1"
-    cidr_blocks = [
-      "0.0.0.0/0"]
-  }
-
-  tags {
-    Name = "sg_builds_shipbits_${var.install_version}"
-  }
-}
