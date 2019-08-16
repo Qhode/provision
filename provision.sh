@@ -107,9 +107,9 @@ output() {
     shipctl put_resource_state kermit_saas_state "jenkins_pub_ip" "$(terraform output inst_kermit_jenkins_u16_pub_ip)"
     shipctl put_resource_state kermit_saas_state "build_u16_priv_ip" "$(terraform output inst_kermit_build_u16_priv_ip)"
   fi
-  if [ "$PROV_CONTEXT" == "shipbits" ] && [ "$PROV_ENV" == "nat" ]; then
-    shipctl put_resource_state shipbits_nat_state "nat_priv_ip" "$(terraform output inst_nat_shipbits_priv_ip)"
-    shipctl put_resource_state shipbits_nat_state "nat_pub_ip" "$(terraform output inst_nat_shipbits_pub_ip)"
+  if [ "$PROV_CONTEXT" == "shipbits" ] && [ "$PROV_ENV" == "ami" ]; then
+    shipctl put_resource_state shipbits_ami_state "nat_priv_ip" "$(terraform output inst_nat_shipbits_priv_ip)"
+    shipctl put_resource_state shipbits_ami_state "nat_pub_ip" "$(terraform output inst_nat_shipbits_pub_ip)"
   fi
   popd
 }
