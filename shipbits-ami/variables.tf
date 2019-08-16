@@ -40,12 +40,12 @@ variable "cidr_block" {
   default = "80.0.0.0/16"
 }
 
-variable "cidr_public_ship_bits" {
+variable "cidr_public_shipbits" {
   description = "Public 0.0 CIDR for externally accesible subnet"
   default = "80.0.0.0/24"
 }
 
-variable "cidr_builds_ship_bits" {
+variable "cidr_builds_shipbits" {
   description = "Private 200 block for builds"
   default = "80.0.200.0/24"
 }

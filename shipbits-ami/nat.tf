@@ -1,7 +1,7 @@
 
 # NAT SG
-resource "aws_security_group" "sg_nat_ship_bits" {
-  name = "sg_nat_ship_bits_${var.install_version}"
+resource "aws_security_group" "sg_nat_shipbits" {
+  name = "sg_nat_shipbits_${var.install_version}"
   description = "Allow traffic to pass from the private subnet to the internet"
 
   ingress {
@@ -9,7 +9,7 @@ resource "aws_security_group" "sg_nat_ship_bits" {
     to_port = 0
     protocol = "-1"
     cidr_blocks = [
-      "${var.cidr_builds_ship_bits}"
+      "${var.cidr_builds_shipbits}"
     ]
   }
 
@@ -46,7 +46,7 @@ resource "aws_security_group" "sg_nat_ship_bits" {
   vpc_id = "${aws_vpc.vpc.id}"
 
   tags {
-    Name = "sg_nat_ship_bits_${var.install_version}"
+    Name = "sg_nat_shipbits_${var.install_version}"
   }
 }
 
@@ -59,15 +59,15 @@ resource "null_resource" "pemfile" {
 }
 
 # NAT Server
-resource "aws_instance" "inst_nat_ship_bits" {
+resource "aws_instance" "inst_nat_shipbits" {
   ami = "${var.ami_us_east_1_nat}"
   availability_zone = "${var.avl_zone}"
   instance_type = "${var.in_type_nat}"
   key_name = "${var.aws_key_name}"
 
-  subnet_id = "${aws_subnet.sn_public_ship_bits.id}"
+  subnet_id = "${aws_subnet.sn_public_shipbits.id}"
   vpc_security_group_ids = [
-    "${aws_security_group.sg_nat_ship_bits.id}"]
+    "${aws_security_group.sg_nat_shipbits.id}"]
 
   provisioner "file" {
     source = "${var.aws_key_filename}"
@@ -89,16 +89,16 @@ resource "aws_instance" "inst_nat_ship_bits" {
   }
 }
 
-output "inst_nat_ship_bits_priv_ip" {
-  value = "${ aws_instance.inst_nat_ship_bits.private_ip}"
+output "inst_nat_shipbits_priv_ip" {
+  value = "${ aws_instance.inst_nat_shipbits.private_ip}"
 }
 
-output "inst_nat_ship_bits_pub_ip" {
-  value = "${aws_instance.inst_nat_ship_bits.public_ip}"
+output "inst_nat_shipbits_pub_ip" {
+  value = "${aws_instance.inst_nat_shipbits.public_ip}"
 }
 
 # # Associate EIP, without this private SN wont work
 resource "aws_eip" "eip_nat" {
-  instance = "${aws_instance.inst_nat_ship_bits.id}"
+  instance = "${aws_instance.inst_nat_shipbits.id}"
   vpc = true
 }
