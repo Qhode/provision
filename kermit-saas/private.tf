@@ -304,3 +304,29 @@ resource "aws_instance" "inst_kermit_build_u16" {
 output "inst_kermit_build_u16_priv_ip" {
   value = "${aws_instance.inst_kermit_build_u16.private_ip}"
 }
+
+## RHEL7 Instances
+resource "aws_instance" "inst_kermit_rhel7" {
+ ami = "${var.ami_us_east_1_rhel7}"
+ availability_zone = "${var.avl_zone}"
+ instance_type = "${var.inst_type_x}"
+ key_name = "${var.aws_key_name}"
+ subnet_id = "${aws_subnet.sn_private_kermit.id}"
+
+ vpc_security_group_ids = [
+   "${aws_security_group.sg_private_kermit.id}"]
+
+ root_block_device {
+   volume_type = "gp2"
+   volume_size = 100
+   delete_on_termination = true
+ }
+
+ tags = {
+   Name = "inst_kermit_rhel7_${var.install_version}"
+ }
+}
+
+output "inst_kermit_rhel7_priv_ip" {
+  value = "${aws_instance.inst_kermit_rhel7.private_ip}"
+}
