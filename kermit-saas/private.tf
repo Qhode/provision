@@ -324,10 +324,10 @@ resource "aws_instance" "inst_kermit_rhel7" {
  }
 
  tags = {
-   Name = "inst_kermit_rhel7_${var.install_version}"
+   Name = "inst_kermit_rhel7_${count.index}_${var.install_version}"
  }
 }
 
 output "inst_kermit_rhel7_priv_ip" {
-  value = "${aws_instance.inst_kermit_rhel7.private_ip}"
+  value = "${formatlist("instance %v has private ip %v", aws_instance.inst_kermit_rhel7.*.id, aws_instance.inst_kermit_rhel7.*.private_ip)}"
 }
