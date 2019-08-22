@@ -313,6 +313,7 @@ resource "aws_instance" "inst_kermit_rhel7" {
  key_name = "${var.aws_key_name}"
  subnet_id = "${aws_subnet.sn_private_kermit.id}"
 
+ count = 2
  vpc_security_group_ids = [
    "${aws_security_group.sg_private_kermit.id}"]
 
