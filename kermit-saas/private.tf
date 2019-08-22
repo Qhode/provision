@@ -319,7 +319,7 @@ resource "aws_instance" "inst_kermit_rhel7" {
 
  root_block_device {
    volume_type = "gp2"
-   volume_size = 100
+   volume_size = 40
    delete_on_termination = true
  }
 
